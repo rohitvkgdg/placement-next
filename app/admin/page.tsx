@@ -1,6 +1,6 @@
-import { redirect } from "next/navigation"
+import { redirect } from "next/navigation";
 
-export default function AdminPage() {
+export default function AdminDasboardPage() {
   // Redirect to the main admin dashboard
-  redirect("/admin/dashboard")
+  redirect("/admin/dashboard");
 }
