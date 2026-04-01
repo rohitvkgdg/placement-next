@@ -1,6 +1,8 @@
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { redirect } from "next/navigation"
+import { checkYearAccess } from "@/lib/year-gate"
+import { getSiteSettings } from "@/lib/settings"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
@@ -25,6 +27,13 @@ export default async function DashboardPage() {
   if (!session?.user?.id) {
     redirect("/login")
   }
+
+  const yearAccess = await checkYearAccess(session)
+  if (!yearAccess.authorized) {
+    redirect("/not-authorized")
+  }
+
+  const siteSettings = await getSiteSettings()
 
   // Get user with profile
   const user = await prisma.user.findUnique({
@@ -129,6 +138,25 @@ export default async function DashboardPage() {
             </div>
           </div>
         </div>
+
+        {/* Announcement Banner */}
+        {siteSettings.announcementActive && siteSettings.announcementText && (
+          <Card className="border-blue-200 bg-blue-50 dark:bg-blue-950/20">
+            <CardContent className="pt-6">
+              <div className="flex items-start gap-4">
+                <IconAlertCircle className="h-5 w-5 text-blue-600 mt-0.5" />
+                <div className="flex-1">
+                  <h3 className="font-semibold text-blue-900 dark:text-blue-200">
+                    {siteSettings.placementSeasonName}
+                  </h3>
+                  <p className="text-sm text-blue-800 dark:text-blue-300 mt-1">
+                    {siteSettings.announcementText}
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* KYC Status Alert for students */}
         {!isAdmin && !hasProfile && (

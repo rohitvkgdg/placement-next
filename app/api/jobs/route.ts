@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma"
 import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
+import { getSiteSettings } from "@/lib/settings"
 
 type JobWithDetails = {
     id: string
@@ -90,8 +91,10 @@ export async function GET(request: NextRequest) {
         const category = searchParams.get("category")
         const workMode = searchParams.get("workMode")
         const tier = searchParams.get("tier")
-        const page = parseInt(searchParams.get("page") || "1")
-        const limit = parseInt(searchParams.get("limit") || "10")
+        const rawPage = parseInt(searchParams.get("page") || "1", 10)
+        const rawLimit = parseInt(searchParams.get("limit") || "10", 10)
+        const page = isNaN(rawPage) ? 1 : Math.max(rawPage, 1)
+        const limit = isNaN(rawLimit) ? 10 : Math.min(Math.max(rawLimit, 1), 100)
         const skip = (page - 1) * limit
 
         // Build where clause
@@ -281,9 +284,12 @@ export async function GET(request: NextRequest) {
             }
         })
 
+        const siteSettings = await getSiteSettings()
+
         return NextResponse.json({
             jobs: jobsWithEligibility,
             userPlacementTier: highestTierPlacement,
+            registrationOpen: siteSettings.registrationOpen,
             pagination: {
                 total,
                 page,

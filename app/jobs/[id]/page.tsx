@@ -1,6 +1,7 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
+import DOMPurify from "dompurify"
 import { useParams, useRouter } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -267,7 +268,7 @@ export default function JobDetailPage() {
                         <CardContent>
                             <div
                                 className="prose prose-sm max-w-none dark:prose-invert"
-                                dangerouslySetInnerHTML={{ __html: job.description }}
+                                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(job.description) }}
                             />
                         </CardContent>
                     </Card>

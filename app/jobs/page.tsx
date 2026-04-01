@@ -56,6 +56,7 @@ interface Job {
 export default function JobsPage() {
   const [jobs, setJobs] = useState<Job[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [registrationOpen, setRegistrationOpen] = useState(true)
   const [search, setSearch] = useState("")
   const [jobType, setJobType] = useState("ALL")
   const [workMode, setWorkMode] = useState("ALL")
@@ -79,6 +80,7 @@ export default function JobsPage() {
         const data = await response.json()
         setJobs(data.jobs)
         setTotalPages(data.pagination.pages)
+        setRegistrationOpen(data.registrationOpen ?? true)
       }
     } catch (error) {
       console.error("Error fetching jobs:", error)
@@ -147,6 +149,21 @@ export default function JobsPage() {
           Explore and apply to placement opportunities
         </p>
       </div>
+
+      {/* Registration Closed Banner */}
+      {!registrationOpen && (
+        <Card className="border-yellow-200 bg-yellow-50">
+          <CardContent className="pt-6">
+            <div className="flex items-center gap-3">
+              <AlertCircle className="h-5 w-5 text-yellow-600" />
+              <div>
+                <p className="font-medium text-yellow-900">Applications are currently closed</p>
+                <p className="text-sm text-yellow-800">The placement cell has temporarily paused new applications. You can still browse available positions.</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Filters */}
       <Card>
