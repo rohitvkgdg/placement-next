@@ -1,7 +1,7 @@
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { NextResponse } from "next/server"
-import { NotificationType } from ".prisma/client/enums"
+import { NotificationType } from "@prisma/client"
 
 // POST /api/admin/notifications - Send bulk notifications
 export async function POST(req: Request) {

@@ -13,7 +13,8 @@ export async function GET(req: Request) {
 
         const { searchParams } = new URL(req.url)
         const unreadOnly = searchParams.get("unread") === "true"
-        const limit = parseInt(searchParams.get("limit") || "20")
+        const rawLimit = parseInt(searchParams.get("limit") || "20", 10)
+        const limit = isNaN(rawLimit) ? 20 : Math.min(Math.max(rawLimit, 1), 100)
 
         const notifications = await prisma.notification.findMany({
             where: {

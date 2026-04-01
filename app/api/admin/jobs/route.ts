@@ -62,8 +62,10 @@ export async function GET(request: NextRequest) {
         const status = searchParams.get("status")
         const category = searchParams.get("category")
         const tier = searchParams.get("tier")
-        const page = parseInt(searchParams.get("page") || "1")
-        const limit = parseInt(searchParams.get("limit") || "10")
+        const rawPage = parseInt(searchParams.get("page") || "1", 10)
+        const rawLimit = parseInt(searchParams.get("limit") || "10", 10)
+        const page = isNaN(rawPage) ? 1 : Math.max(rawPage, 1)
+        const limit = isNaN(rawLimit) ? 10 : Math.min(Math.max(rawLimit, 1), 100)
         const skip = (page - 1) * limit
 
         const where: any = {}

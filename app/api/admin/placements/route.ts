@@ -22,8 +22,10 @@ export async function GET(request: NextRequest) {
         const batch = searchParams.get("batch")
         const branch = searchParams.get("branch")
         const search = searchParams.get("search") || ""
-        const page = parseInt(searchParams.get("page") || "1")
-        const limit = parseInt(searchParams.get("limit") || "20")
+        const rawPage = parseInt(searchParams.get("page") || "1", 10)
+        const rawLimit = parseInt(searchParams.get("limit") || "20", 10)
+        const page = isNaN(rawPage) ? 1 : Math.max(rawPage, 1)
+        const limit = isNaN(rawLimit) ? 20 : Math.min(Math.max(rawLimit, 1), 100)
         const skip = (page - 1) * limit
 
         const where: any = {}
