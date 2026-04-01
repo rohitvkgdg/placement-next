@@ -1,27 +1,7 @@
-import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
-import { redirect } from "next/navigation"
 import { CompanyManagementView } from "@/components/admin/company-management-view"
 
 export default async function CompaniesPage() {
-  const session = await auth()
-  
-  if (!session?.user?.id) {
-    redirect("/login")
-  }
-
-  // Get user with role information
-  const user = await prisma.user.findUnique({
-    where: { id: session.user.id },
-    select: { role: true }
-  })
-
-  const isAdmin = user?.role === 'ADMIN'
-  
-  if (!isAdmin) {
-    redirect("/dashboard")
-  }
-
   // Fetch recruiter/company data
   const [companies, totalCount] = await Promise.all([
     prisma.user.findMany({

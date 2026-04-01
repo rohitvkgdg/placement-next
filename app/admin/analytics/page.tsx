@@ -1,6 +1,4 @@
-import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
-import { redirect } from "next/navigation"
 import { AdminAnalytics } from "@/components/admin-analytics"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -35,23 +33,6 @@ type CompanyStat = {
 }
 
 export default async function AnalyticsPage() {
-  const session = await auth()
-
-  if (!session?.user?.id) {
-    redirect("/login")
-  }
-
-  const user = await prisma.user.findUnique({
-    where: { id: session.user.id },
-    select: { role: true }
-  })
-
-  const isAdmin = user?.role === "ADMIN"
-
-  if (!isAdmin) {
-    redirect("/dashboard")
-  }
-
   // Fetch comprehensive analytics data
   const [
     userStats,

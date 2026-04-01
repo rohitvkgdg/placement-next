@@ -1,26 +1,9 @@
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
-import { redirect } from "next/navigation"
 import { KYCVerificationQueue } from "@/components/kyc-verification-queue"
 
 export default async function KYCVerificationPage() {
   const session = await auth()
-  
-  if (!session?.user?.id) {
-    redirect("/login")
-  }
-
-  // Get user with role information
-  const user = await prisma.user.findUnique({
-    where: { id: session.user.id },
-    select: { role: true }
-  })
-
-  const isAdmin = user?.role === 'ADMIN'
-  
-  if (!isAdmin) {
-    redirect("/dashboard")
-  }
 
   // Fetch pending KYC verifications
   const pendingVerifications = await prisma.profile.findMany({
@@ -59,7 +42,7 @@ export default async function KYCVerificationPage() {
         
         <KYCVerificationQueue 
           pendingVerifications={pendingVerifications}
-          adminId={session.user.id}
+          adminId={session!.user.id}
         />
       </div>
     </div>

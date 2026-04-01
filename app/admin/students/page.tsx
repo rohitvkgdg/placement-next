@@ -1,26 +1,9 @@
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
-import { redirect } from "next/navigation"
 import { StudentManagement } from "@/components/student-management"
 
 export default async function StudentsPage() {
   const session = await auth()
-  
-  if (!session?.user?.id) {
-    redirect("/login")
-  }
-
-  // Get user with role information
-  const user = await prisma.user.findUnique({
-    where: { id: session.user.id },
-    select: { role: true }
-  })
-
-  const isAdmin = user?.role === 'ADMIN'
-  
-  if (!isAdmin) {
-    redirect("/dashboard")
-  }
 
   // Fetch all students with their profiles
   const students = await prisma.user.findMany({
@@ -63,7 +46,7 @@ export default async function StudentsPage() {
         
         <StudentManagement 
           students={students}
-          adminId={session.user.id}
+          adminId={session!.user.id}
         />
       </div>
     </div>

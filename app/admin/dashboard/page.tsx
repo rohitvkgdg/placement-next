@@ -1,27 +1,10 @@
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
-import { redirect } from "next/navigation"
 import { getSiteSettings } from "@/lib/settings"
 import { AdminDashboardView } from "@/components/admin/admin-dashboard-view"
 
 export default async function AdminDashboardPage() {
   const session = await auth()
-
-  if (!session?.user?.id) {
-    redirect("/login")
-  }
-
-  // Get user with role information
-  const user = await prisma.user.findUnique({
-    where: { id: session.user.id },
-    select: { role: true, name: true, email: true }
-  })
-
-  const isAdmin = user?.role === 'ADMIN'
-
-  if (!isAdmin) {
-    redirect("/dashboard")
-  }
 
   const siteSettings = await getSiteSettings()
 
@@ -210,8 +193,8 @@ export default async function AdminDashboardPage() {
       monthlyTrends
     },
     user: {
-      name: user.name || 'Admin',
-      email: user.email || ''
+      name: session?.user?.name || 'Admin',
+      email: session?.user?.email || ''
     }
   }
 

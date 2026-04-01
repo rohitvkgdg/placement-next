@@ -1,6 +1,4 @@
 import { Metadata } from "next"
-import { redirect } from "next/navigation"
-import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -19,21 +17,6 @@ export const metadata: Metadata = {
 }
 
 export default async function JobManagementPage() {
-    const session = await auth()
-
-    if (!session?.user?.id) {
-        redirect("/login")
-    }
-
-    const user = await prisma.user.findUnique({
-        where: { id: session.user.id },
-        select: { role: true }
-    })
-
-    if (user?.role !== 'ADMIN') {
-        redirect("/dashboard")
-    }
-
     // Fetch job statistics
     const [totalJobs, activeJobs, draftJobs, totalApplications] = await Promise.all([
         prisma.job.count(),
