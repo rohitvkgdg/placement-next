@@ -343,6 +343,9 @@ model Profile {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  @@index([batch])
+  @@index([branch])
+  @@index([kycStatus])
   @@map("profiles")
 }
 
