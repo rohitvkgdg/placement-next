@@ -78,9 +78,9 @@ export default function JobsPage() {
       const response = await fetch(`/api/jobs?${params}`)
       if (response.ok) {
         const data = await response.json()
-        setJobs(data.jobs)
-        setTotalPages(data.pagination.pages)
-        setRegistrationOpen(data.registrationOpen ?? true)
+        setJobs(data.data.jobs)
+        setTotalPages(data.data.pagination.pages)
+        setRegistrationOpen(data.data.registrationOpen ?? true)
       }
     } catch (error) {
       console.error("Error fetching jobs:", error)

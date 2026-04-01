@@ -75,8 +75,8 @@ export default function JobDetailPage() {
                 const response = await fetch(`/api/jobs/${params.id}`)
                 if (response.ok) {
                     const data = await response.json()
-                    setJob(data.job)
-                    setHasApplied(data.hasApplied)
+                    setJob(data.data.job)
+                    setHasApplied(data.data.hasApplied)
                 } else {
                     toast.error("Job not found")
                     router.push("/jobs")

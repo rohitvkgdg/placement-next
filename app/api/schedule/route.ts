@@ -86,7 +86,7 @@ export async function GET() {
       createdBy: event.createdBy
     }))
 
-    return NextResponse.json(transformedEvents)
+    return NextResponse.json({ success: true, data: transformedEvents })
   } catch (error) {
     console.error('Error fetching events:', error)
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })
@@ -176,7 +176,7 @@ export async function POST(request: NextRequest) {
       createdBy: event.createdBy
     }
 
-    return NextResponse.json(transformedEvent, { status: 201 })
+    return NextResponse.json({ success: true, data: transformedEvent }, { status: 201 })
   } catch (error) {
     console.error('Error creating event:', error)
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })

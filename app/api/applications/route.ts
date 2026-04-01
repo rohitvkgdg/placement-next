@@ -53,12 +53,15 @@ export async function GET(request: NextRequest) {
         ])
 
         return NextResponse.json({
-            applications,
-            pagination: {
-                total,
-                page,
-                limit,
-                pages: Math.ceil(total / limit)
+            success: true,
+            data: {
+                applications,
+                pagination: {
+                    total,
+                    page,
+                    limit,
+                    pages: Math.ceil(total / limit)
+                }
             }
         })
 

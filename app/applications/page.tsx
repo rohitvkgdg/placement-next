@@ -71,12 +71,12 @@ export default function ApplicationsPage() {
             const response = await fetch(`/api/applications?${params}`)
             if (response.ok) {
                 const data = await response.json()
-                setApplications(data.applications)
-                setTotalPages(data.pagination?.pages || 1)
+                setApplications(data.data.applications)
+                setTotalPages(data.data.pagination?.pages || 1)
 
                 // Generate QR codes for each application
                 const newQrCodes: Record<string, string> = {}
-                for (const app of data.applications) {
+                for (const app of data.data.applications) {
                     const qrData = JSON.stringify({
                         applicationId: app.id,
                         jobId: app.job.id,

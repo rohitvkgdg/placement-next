@@ -73,7 +73,7 @@ export function Scheduler({ isAdmin = false, userId }: SchedulerProps) {
       const response = await fetch('/api/schedule')
       if (response.ok) {
         const data = await response.json()
-        setEvents(data)
+        setEvents(data.data)
       } else {
         toast.error("Failed to fetch events")
       }
@@ -120,7 +120,8 @@ export function Scheduler({ isAdmin = false, userId }: SchedulerProps) {
       })
 
       if (response.ok) {
-        const createdEvent = await response.json()
+        const res = await response.json()
+        const createdEvent = res.data
         setEvents([...events, createdEvent])
         resetNewEvent()
         setIsCreateDialogOpen(false)

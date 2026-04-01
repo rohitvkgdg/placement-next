@@ -49,7 +49,7 @@ export default function NotificationMenu() {
       const response = await fetch('/api/notifications')
       if (response.ok) {
         const data = await response.json()
-        setNotifications(data.notifications || [])
+        setNotifications(data.data?.notifications || [])
       }
     } catch (error) {
       console.error('Failed to fetch notifications:', error)

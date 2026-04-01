@@ -244,14 +244,17 @@ export async function GET(request: NextRequest) {
         const siteSettings = await getSiteSettings()
 
         return NextResponse.json({
-            jobs: jobsWithEligibility,
-            userPlacementTier: highestTierPlacement,
-            registrationOpen: siteSettings.registrationOpen,
-            pagination: {
-                total,
-                page,
-                limit,
-                pages: Math.ceil(total / limit)
+            success: true,
+            data: {
+                jobs: jobsWithEligibility,
+                userPlacementTier: highestTierPlacement,
+                registrationOpen: siteSettings.registrationOpen,
+                pagination: {
+                    total,
+                    page,
+                    limit,
+                    pages: Math.ceil(total / limit)
+                }
             }
         })
 

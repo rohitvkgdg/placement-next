@@ -51,8 +51,11 @@ export async function GET(
         })
 
         return NextResponse.json({
-            job,
-            hasApplied: !!application && !application.isRemoved,
+            success: true,
+            data: {
+                job,
+                hasApplied: !!application && !application.isRemoved,
+            }
         })
 
     } catch (error) {

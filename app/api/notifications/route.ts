@@ -34,8 +34,11 @@ export async function GET(req: Request) {
         })
 
         return NextResponse.json({
-            notifications,
-            unreadCount
+            success: true,
+            data: {
+                notifications,
+                unreadCount
+            }
         })
     } catch (error) {
         console.error("Error fetching notifications:", error)
