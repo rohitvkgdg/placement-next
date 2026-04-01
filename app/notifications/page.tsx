@@ -2,7 +2,7 @@ import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { redirect } from "next/navigation"
 import { NotificationsClient } from "./notifications-client"
-import { NotificationType } from ".prisma/client/enums"
+import { NotificationType } from "@prisma/client"
 
 type Notification = {
     id: string
