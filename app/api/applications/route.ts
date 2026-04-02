@@ -30,7 +30,13 @@ export async function GET(request: NextRequest) {
                 orderBy: { appliedAt: "desc" },
                 skip,
                 take: limit,
-                include: {
+                select: {
+                    id: true,
+                    appliedAt: true,
+                    status: true,
+                    adminFeedback: true,
+                    interviewDate: true,
+                    resumeUsed: true,
                     job: {
                         select: {
                             id: true,
@@ -44,6 +50,7 @@ export async function GET(request: NextRequest) {
                             workMode: true,
                             salary: true,
                             deadline: true,
+                            isDreamOffer: true,
                             status: true
                         }
                     }

@@ -263,8 +263,8 @@ export default async function AnalyticsPage() {
 
         <Tabs defaultValue="students" className="space-y-6">
           <TabsList className="grid w-full max-w-md grid-cols-2">
-            <TabsTrigger value="students">Student Analytics</TabsTrigger>
-            <TabsTrigger value="companies">Companies</TabsTrigger>
+            <TabsTrigger value="students">Placements</TabsTrigger>
+            <TabsTrigger value="companies">Students</TabsTrigger>
           </TabsList>
 
           <TabsContent value="students">

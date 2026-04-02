@@ -7,6 +7,7 @@ import {
     IconLayoutDashboard,
     IconBriefcase,
     IconFileText,
+    IconCalendar,
 } from "@tabler/icons-react"
 
 import Logo from "@/components/navbar-components/logo"
@@ -26,6 +27,7 @@ const navItems = [
     { href: "/dashboard", label: "Dashboard", icon: IconLayoutDashboard },
     { href: "/jobs", label: "Jobs", icon: IconBriefcase },
     { href: "/applications", label: "Applications", icon: IconFileText },
+    { href: "/schedule", label: "Schedule", icon: IconCalendar },
 ]
 
 export default function Navbar() {

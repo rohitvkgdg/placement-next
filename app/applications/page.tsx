@@ -34,6 +34,9 @@ import QRCode from "qrcode"
 interface Application {
     id: string
     appliedAt: string
+    status: string
+    adminFeedback: string | null
+    interviewDate: string | null
     resumeUsed?: string
     job: {
         id: string
@@ -51,6 +54,17 @@ interface Application {
     attendance?: {
         scannedAt?: string
     }
+}
+
+const STATUS_CONFIG: Record<string, { label: string; className: string }> = {
+    APPLIED: { label: "Applied", className: "bg-blue-100 text-blue-800" },
+    SHORTLISTED: { label: "Shortlisted", className: "bg-yellow-100 text-yellow-800" },
+    INTERVIEW_SCHEDULED: { label: "Interview Scheduled", className: "bg-purple-100 text-purple-800" },
+    INTERVIEWED: { label: "Interviewed", className: "bg-indigo-100 text-indigo-800" },
+    SELECTED: { label: "Selected", className: "bg-green-100 text-green-800" },
+    OFFER_ACCEPTED: { label: "Offer Accepted", className: "bg-green-100 text-green-800" },
+    OFFER_REJECTED: { label: "Offer Rejected", className: "bg-orange-100 text-orange-800" },
+    REJECTED: { label: "Not Selected", className: "bg-red-100 text-red-800" },
 }
 
 export default function ApplicationsPage() {
@@ -190,6 +204,11 @@ export default function ApplicationsPage() {
                                                     <h3 className="text-lg font-semibold">{app.job.title}</h3>
                                                     {getTierBadge(app.job.tier, app.job.isDreamOffer)}
                                                     <Badge variant="outline">{getCategoryLabel(app.job.category)}</Badge>
+                                                    {app.status && STATUS_CONFIG[app.status] && (
+                                                        <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${STATUS_CONFIG[app.status].className}`}>
+                                                            {STATUS_CONFIG[app.status].label}
+                                                        </span>
+                                                    )}
                                                 </div>
                                                 <p className="text-muted-foreground">{app.job.companyName}</p>
 
@@ -207,6 +226,19 @@ export default function ApplicationsPage() {
                                                         Applied {format(new Date(app.appliedAt), 'MMM dd, yyyy')}
                                                     </span>
                                                 </div>
+
+                                                {app.interviewDate && (
+                                                    <div className="mt-2 inline-flex items-center gap-1 text-sm text-purple-600">
+                                                        <Clock className="w-4 h-4" />
+                                                        Interview: {format(new Date(app.interviewDate), 'MMM dd, yyyy hh:mm a')}
+                                                    </div>
+                                                )}
+
+                                                {app.adminFeedback && (
+                                                    <div className="mt-2 p-2 bg-muted rounded text-sm text-muted-foreground">
+                                                        <span className="font-medium">Feedback: </span>{app.adminFeedback}
+                                                    </div>
+                                                )}
 
                                                 {app.attendance?.scannedAt && (
                                                     <div className="mt-2 inline-flex items-center gap-1 text-sm text-green-600">

@@ -328,7 +328,11 @@ export function JobForm({ initialData, onSubmit, isLoading = false }: JobFormPro
                                 required
                                 placeholder="e.g., 8.5"
                                 value={formData.salary || ""}
-                                onChange={e => setFormData(prev => ({ ...prev, salary: e.target.value ? parseFloat(e.target.value) : 0 }))}
+                                onChange={e => {
+                                    const salary = e.target.value ? parseFloat(e.target.value) : 0
+                                    const autoTier = salary > 9 ? "TIER_1" : salary > 5 ? "TIER_2" : "TIER_3"
+                                    setFormData(prev => ({ ...prev, salary, tier: prev.isDreamOffer ? "DREAM" : autoTier }))
+                                }}
                             />
                             <p className="text-xs text-muted-foreground">
                                 Tier auto-calculated: ≤5 LPA = Tier 3, 5-9 LPA = Tier 2, &gt;9 LPA = Tier 1

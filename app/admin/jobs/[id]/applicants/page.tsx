@@ -9,6 +9,7 @@ import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 import { format } from "date-fns"
 import { ApplicantsTable } from "@/components/admin/applicants-table"
+import { JobAnnouncementsPanel } from "@/components/admin/job-announcements-panel"
 
 type ApplicationWithUser = {
     id: string
@@ -196,6 +197,9 @@ export default async function JobApplicantsPage({ params }: { params: Promise<{ 
                 jobTitle={job.title}
                 applicants={applicants}
             />
+
+            {/* Announcements / Job Updates */}
+            <JobAnnouncementsPanel jobId={job.id} />
         </div>
     )
 }
