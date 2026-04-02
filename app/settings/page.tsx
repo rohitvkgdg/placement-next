@@ -5,16 +5,27 @@ import { Settings, Bell, Palette, Shield } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { PushNotificationToggle } from "@/components/push-notification-button"
 import ThemeToggle from "@/components/theme-toggle"
+import { SecuritySettings } from "@/components/security-settings"
 
 export default async function SettingsPage() {
   const session = await auth()
   if (!session?.user?.id) {
     redirect("/login")
   }
-  const profile = await prisma.profile.findUnique({ where: { userId: session.user.id } })
+  const [profile, oauthAccount] = await Promise.all([
+    prisma.profile.findUnique({ where: { userId: session.user.id } }),
+    prisma.account.findFirst({
+      where: { userId: session.user.id },
+      select: { provider: true },
+    }),
+  ])
   if (!profile?.isComplete) {
     redirect("/profile")
   }
+  const isOAuthUser = !!oauthAccount
+  const providerName = oauthAccount?.provider
+    ? oauthAccount.provider.charAt(0).toUpperCase() + oauthAccount.provider.slice(1)
+    : undefined
   return (
     <main className="flex-1 bg-background min-h-screen">
       <div className="container mx-auto max-w-4xl px-4 py-8 flex flex-col gap-6">
@@ -75,9 +86,7 @@ export default async function SettingsPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="text-sm text-muted-foreground">
-              Account security settings coming soon.
-            </div>
+            <SecuritySettings isOAuthUser={isOAuthUser} providerName={providerName} />
           </CardContent>
         </Card>
       </div>
