@@ -173,14 +173,17 @@ export async function GET(req: Request) {
         ])
 
         return NextResponse.json({
-            period: days,
-            stats: {
-                totalSent,
-                totalRead,
-                readRate: totalSent > 0 ? Math.round((totalRead / totalSent) * 100) : 0,
-                byType
-            },
-            recent
+            success: true,
+            data: {
+                period: days,
+                stats: {
+                    totalSent,
+                    totalRead,
+                    readRate: totalSent > 0 ? Math.round((totalRead / totalSent) * 100) : 0,
+                    byType
+                },
+                recent
+            }
         })
     } catch (error) {
         console.error("Error fetching notification analytics:", error)

@@ -96,12 +96,15 @@ export async function GET(request: NextRequest) {
         ])
 
         return NextResponse.json({
-            jobs,
-            pagination: {
-                total,
-                page,
-                limit,
-                pages: Math.ceil(total / limit)
+            success: true,
+            data: {
+                jobs,
+                pagination: {
+                    total,
+                    page,
+                    limit,
+                    pages: Math.ceil(total / limit)
+                }
             }
         })
 

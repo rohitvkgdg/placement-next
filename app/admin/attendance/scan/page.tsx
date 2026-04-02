@@ -60,7 +60,7 @@ export default function AttendanceScanPage() {
                 const response = await fetch('/api/admin/jobs?status=ACTIVE&limit=100')
                 if (response.ok) {
                     const data = await response.json()
-                    setJobs(data.jobs)
+                    setJobs(data.data.jobs)
                 }
             } catch (error) {
                 console.error("Error fetching jobs:", error)

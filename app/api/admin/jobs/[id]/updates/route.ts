@@ -99,7 +99,7 @@ export async function GET(
             orderBy: { createdAt: "desc" }
         })
 
-        return NextResponse.json({ updates })
+        return NextResponse.json({ success: true, data: { updates } })
 
     } catch (error) {
         console.error("Error fetching job updates:", error)

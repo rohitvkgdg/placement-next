@@ -38,7 +38,7 @@ export async function GET(
             return NextResponse.json({ error: "Company not found" }, { status: 404 })
         }
 
-        return NextResponse.json({ company })
+        return NextResponse.json({ success: true, data: { company } })
     } catch (error) {
         console.error("Error fetching company:", error)
         return NextResponse.json(
@@ -75,7 +75,7 @@ export async function PATCH(
             },
         })
 
-        return NextResponse.json({ company })
+        return NextResponse.json({ success: true, data: { company } })
     } catch (error) {
         console.error("Error updating company:", error)
         return NextResponse.json(

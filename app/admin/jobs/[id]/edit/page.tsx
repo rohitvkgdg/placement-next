@@ -20,7 +20,7 @@ export default function EditJobPage() {
                 if (response.ok) {
                     const data = await response.json()
                     // Format dates for form inputs
-                    const job = data.job
+                    const job = data.data.job
                     setJobData({
                         ...job,
                         deadline: job.deadline ? new Date(job.deadline).toISOString().slice(0, 16) : "",

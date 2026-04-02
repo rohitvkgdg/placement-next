@@ -32,7 +32,7 @@ export async function GET(
             )
         }
 
-        return NextResponse.json({ job })
+        return NextResponse.json({ success: true, data: { job } })
 
     } catch (error) {
         console.error("Error fetching job:", error)
